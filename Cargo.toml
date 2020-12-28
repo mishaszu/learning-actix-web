@@ -1,6 +1,8 @@
 [workspace]
 
 members = [
-  "intro"
+  "intro",
+  "handler-basic",
+  "errors"
 ]
 

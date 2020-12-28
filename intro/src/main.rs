@@ -15,11 +15,10 @@ async fn main() -> std::io::Result<()> {
                 name: "Learning Actix Web".to_string(),
             })
             .app_data(shared_data.clone())
-            .service(app_setup::create_scope_3())
-            .service(app_setup::create_scope_2())
+            .service(web::scope("/state").configure(app_setup::scope_2))
             // root scope ("/" or "") should defined last,
             // otherwaise will try to handle all requests
-            .service(app_setup::create_scope_1())
+            .service(web::scope("").configure(app_setup::scope_1))
     })
     .bind("127.0.0.1:4001")?
     .run()
