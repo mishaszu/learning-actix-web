@@ -1,6 +1,7 @@
 use actix_web::{middleware::Logger, App, HttpServer};
 mod errors_1;
 mod errors_2;
+mod errors_3;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -14,6 +15,7 @@ async fn main() -> std::io::Result<()> {
             .service(errors_2::error_2)
             .service(errors_2::error_3)
             .service(errors_2::error_4)
+            .service(errors_3::error_5)
     })
     .bind("127.0.0.1:4001")?
     .run()
