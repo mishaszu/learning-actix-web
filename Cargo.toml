@@ -6,6 +6,7 @@ members = [
   "errors",
   "url-dispatch",
   "running-tests",
-  "middleware"
+  "middleware",
+  "session-auth-template"
 ]
 

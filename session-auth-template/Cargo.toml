@@ -1,0 +1,15 @@
+[package]
+name = "session-auth-template"
+version = "0.1.0"
+authors = ["mishaszu <mishaszu@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+actix-http = "2"
+actix-web = "3"
+actix-session = "*"
+handlebars = { version = "3.0.0", features = ["dir_source"] }
+serde_json = "1.0"
+env_logger = "*"
