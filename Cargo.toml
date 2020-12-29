@@ -3,6 +3,9 @@
 members = [
   "intro",
   "handler-basic",
-  "errors"
+  "errors",
+  "url-dispatch",
+  "running-tests",
+  "middleware"
 ]
 
