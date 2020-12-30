@@ -1,0 +1,1 @@
+*****Workspace web-auth-server is based on [this medium article](https://medium.com/swlh/creating-a-web-and-api-authentication-service-in-rust-55d0b0a848d)
