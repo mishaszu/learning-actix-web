@@ -4,7 +4,7 @@ use diesel::result::{DatabaseErrorKind, Error as DbError};
 use std::convert::From;
 use uuid::Error as UuidError;
 
-#[derive(Debug, Display)]
+#[derive(Debug, Display, Clone)]
 pub enum AuthError {
     #[display(fmt = "DuplicateValue: {}", _0)]
     DuplicateValue(String),
@@ -14,6 +14,12 @@ pub enum AuthError {
 
     #[display(fmt = "GenericError: {}", _0)]
     GenericError(String),
+
+    #[display(fmt = "AuthenticationError: {}", _0)]
+    AuthenticationError(String),
+
+    #[display(fmt = "ProcessFailed: {}", _0)]
+    ProcessError(String),
 }
 
 impl ResponseError for AuthError {
@@ -22,6 +28,12 @@ impl ResponseError for AuthError {
             AuthError::BadId => HttpResponse::BadRequest().json("Invalid ID"),
             AuthError::DuplicateValue(ref message) => HttpResponse::BadRequest().json(message),
             AuthError::GenericError(ref message) => HttpResponse::BadRequest().json(message),
+            AuthError::AuthenticationError(ref message) => {
+                HttpResponse::Unauthorized().json(message)
+            }
+            AuthError::ProcessError(ref message) => {
+                HttpResponse::InternalServerError().json(message)
+            }
         }
     }
 }

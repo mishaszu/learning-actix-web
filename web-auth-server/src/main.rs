@@ -4,9 +4,13 @@ extern crate lettre;
 extern crate native_tls;
 extern crate serde_json;
 
+mod email_service;
 mod errors;
 mod models;
+mod register_handler;
 mod schema;
+mod templates;
+mod utils;
 mod vars;
 
 use actix_cors::Cors;
@@ -40,8 +44,20 @@ async fn main() -> std::io::Result<()> {
                     .allowed_methods(vec!["GET", "POST", "DELETE"])
                     .max_age(3600),
             )
-            .service(Files::new("/assets", "./templates/assets"))
             .wrap(middleware::Logger::default())
+            .service(Files::new("/assets", "./templates/assets"))
+            .service(
+                web::scope("/")
+                    .service(
+                        web::resource("/register")
+                            .route(web::get().to(register_handler::show_confirmation_form))
+                            .route(web::post().to(register_handler::send_confirmation)),
+                    )
+                    .route(
+                        "/register2",
+                        web::post().to(register_handler::send_confirmation_for_browser),
+                    ),
+            )
     })
     .bind(format!("{}:{}", vars::domain(), vars::port()))?
     .run()
