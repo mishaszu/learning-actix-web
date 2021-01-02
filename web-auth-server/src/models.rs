@@ -52,3 +52,9 @@ impl User {
         }
     }
 }
+
+impl From<User> for SessionUser {
+    fn from(User { email, id, .. }: User) -> Self {
+        SessionUser { email, id }
+    }
+}

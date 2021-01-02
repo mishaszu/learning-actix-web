@@ -20,6 +20,9 @@ pub enum AuthError {
 
     #[display(fmt = "ProcessFailed: {}", _0)]
     ProcessError(String),
+
+    #[display(fmt = "Not found: {}", _0)]
+    NotFound(String),
 }
 
 impl ResponseError for AuthError {
@@ -34,6 +37,7 @@ impl ResponseError for AuthError {
             AuthError::ProcessError(ref message) => {
                 HttpResponse::InternalServerError().json(message)
             }
+            AuthError::NotFound(ref message) => HttpResponse::NotFound().json(message),
         }
     }
 }

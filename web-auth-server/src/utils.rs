@@ -53,3 +53,9 @@ pub fn get_current_user(session: &Session) -> Result<SessionUser, AuthError> {
             serde_json::from_str(&user_str).or_else(|_| Err(err))
         })
 }
+
+pub fn set_current_user(session: &Session, user: &SessionUser) -> () {
+    session
+        .set("user", serde_json::to_string(user).unwrap())
+        .unwrap()
+}
