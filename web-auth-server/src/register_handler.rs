@@ -36,6 +36,7 @@ pub async fn send_confirmation_for_browser(
     pool: web::Data<Pool>,
 ) -> Result<HttpResponse, AuthError> {
     let result = web::block(move || create_confirmation(data.into_inner().email, &pool)).await;
+    println!("Running from browser");
     let template = match result {
         Ok(_) => Register {
             sent: true,

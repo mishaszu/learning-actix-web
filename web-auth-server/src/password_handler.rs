@@ -104,11 +104,12 @@ pub async fn show_password_form(
 }
 
 pub async fn create_account_for_browser(
+    session: Session,
     path_id: web::Path<String>,
     data: web::Form<PasswordData>,
-    session: Session,
     pool: web::Data<Pool>,
 ) -> Result<HttpResponse, AuthError> {
+    println!("Creating account");
     let id_str = path_id.into_inner();
     let id_str2 = String::from(id_str.as_str());
     let result = web::block(move || create_user(&id_str, &data.into_inner().password, &pool)).await;

@@ -26,7 +26,8 @@ use diesel::{
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    std::env::set_var("RUST_LOG", "actix_web=infoctix_server=info");
+    std::env::set_var("RUST_LOG", "actix_web=info,actix_server=info");
+    env_logger::init();
     let manager = ConnectionManager::<PgConnection>::new(vars::database_url());
     let pool: models::Pool = r2d2::Pool::builder()
         .build(manager)
@@ -68,11 +69,7 @@ async fn main() -> std::io::Result<()> {
                     )
                     .service(
                         web::resource("/register/{path_id}")
-                            .route(
-                                web::post()
-                                    .guard(guard::Header("content-type", "application/json"))
-                                    .to(password_handler::create_account),
-                            )
+                            .route(web::get().to(password_handler::show_password_form))
                             .route(
                                 web::post()
                                     .guard(guard::Header(
@@ -81,7 +78,11 @@ async fn main() -> std::io::Result<()> {
                                     ))
                                     .to(password_handler::create_account_for_browser),
                             )
-                            .route(web::get().to(password_handler::show_password_form)),
+                            .route(
+                                web::post()
+                                    .guard(guard::Header("content-type", "application/json"))
+                                    .to(password_handler::create_account),
+                            ),
                     )
                     .service(
                         web::resource("/me")
