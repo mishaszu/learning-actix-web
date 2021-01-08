@@ -36,7 +36,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .data(pool.clone())
             .wrap(
-                CookieSession::signed(&[0; 32])
+                CookieSession::signed("Test".as_bytes())
                     .domain(vars::domain_url().as_str())
                     .name("auth")
                     .secure(false),
